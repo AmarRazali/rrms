@@ -1,5 +1,4 @@
 <?php
-
 class petModel{
     public $petgroom_id,$name,$details,$quantity,$price,$image;
     
@@ -9,114 +8,52 @@ class petModel{
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $pdo;
     }
-    
-    function addpetgroom(){
-        $sql = "insert into petgroom(petgroom_name, petgroom_details, petgroom_quantity, petgroom_price, petgroom_image) values(:name, :details, :quantity, :price, :image)";
-        $args = [':name'=>$this->name, ':details'=>$this->details, ':quantity'=>$this->quantity, ':price'=>$this->price, ':image'=>$this->image];
-        $stmt = DB::run($sql, $args);
-        $count = $stmt->rowCount();
-        return $count;
+
+    function allPet(){
+        $sql = "select * from petservices";
+        return petModel::connect()->query($sql);;
     }
-    
-    function viewallpetgroom(){
-        $sql = "select * from pethotel";
+
+    function petDetails(){
+        $sql = "select * from petservices where ServiceP_ID=:providerID";
+        $args = [':providerID'=>$this->providerID];
         $stmt = petModel::connect()->prepare($sql);
-        $stmt->execute();
+        $stmt->execute($args);
         return $stmt;
     }
-    
-    function viewpetgroom(){
-        $sql = "select * from petgroom where petgroom_id=:petgroom_id";
-        $args = [':petgroom_id'=>$this->petgroom_id];
-        return DB::run($sql,$args);
-    }
-    
 
-    function deletepetgroom(){
-        $sql = "delete from petgroom where petgroom_id=:petgroom_id";
-        $args = [':petgroom_id'=>$this->petgroom_id];
-        return DB::run($sql,$args);
-    }
-
-
-    function modifypetgroom(){
-        $sql = "update petgroom set petgroom_name=:name,petgroom_details=:details,petgroom_quantity=:quantity,petgroom_price=:price,petgroom_image=:image where petgroom_id=:petgroom_id";
-        $args = [':petgroom_id'=>$this->petgroom_id, ':name'=>$this->name, ':details'=>$this->details,':price'=>$this->price, ':quantity'=>$this->quantity, ':image'=>$this->image];
-        return DB::run($sql,$args);
-    }   
-}
-class pethotelModel{
-    public $pethotel_id,$name,$details,$quantity,$price,$image;
-    
-    function addpethotel(){
-        $sql = "insert into pethotel(pethotel_name, pethotel_details, pethotel_quantity, pethotel_price, pethotel_image) values(:name, :details, :quantity, :price, :image)";
-        $args = [':name'=>$this->name, ':details'=>$this->details, ':quantity'=>$this->quantity, ':price'=>$this->price, ':image'=>$this->image];
-        $stmt = DB::run($sql, $args);
-        $count = $stmt->rowCount();
-        return $count;
-    }
-    
-    function viewallpethotel(){
-        $sql = "select * from pethotel";
+    function myBookings(){
+        $sql = "select * from orderpetassist where Cus_ID=:customerID";
+        $args = [':customerID'=>$this->customerID];
         $stmt = petModel::connect()->prepare($sql);
-        $stmt->execute();
+        $stmt->execute($args);
         return $stmt;
-        
     }
+
+   function updateServiceDetails(){
+        $sql = "update petservices set P_Name=:PName, P_Description=:PDescription, P_Price=:PPrice, A_Pets=:APets, A_PetSize=:APetSize, Days=:Days, P_Image=:PImage where  ServiceP_ID=:providerID";
+        $args = [':providerID'=>$this->providerID, ':PName'=>$this->PName, ':PDescription'=>$this->PDescription, ':PPrice'=>$this->PPrice, ':APets'=>$this->APets, ':APetSize'=>$this->APetSize, ':Days'=>$this->Days, ':PImage'=>$this->PImage];
+        $stmt = petModel::connect()->prepare($sql);
+        $stmt->execute($args);
+        return $stmt;
+    }
+
+
+     function addPet(){
+        $sql = "insert into petservices (ServiceP_ID, P_Name, P_Description, P_Price, P_Image) values (:providerID, :PName, :PDescription, :PPrice, :PImage)";
+        $args = [':providerID'=>$this->providerID, ':PName'=>$this->PName, ':PDescription'=>$this->PDescription, ':PPrice'=>$this->PPrice, ':PImage'=>$this->PImage];
+        $stmt = petModel::connect()->prepare($sql);
+        $stmt->execute($args);
+        return $stmt;
+    }
+
+    function makeBooking(){
+        $sql = "insert into orderpetassist (Cus_ID, ServiceP_ID, OPA_Dropoff, OPA_Pickup, OPA_TimeStart, OPA_TimeEnd, NumOfPets, Breed, Pet_Image) values (:customerID, :ServiceP_ID, :Pdate, :Rdate, :PTime, :RTime, :Numpets, :Breed, :PetImage)";
+        $args = [':customerID'=>$this->customerID, ':ServiceP_ID'=>$this->ServiceP_ID, ':Pdate'=>$this->Pdate, ':Rdate'=>$this->Rdate, ':PTime'=>$this->PTime, ':RTime'=>$this->RTime, 'Numpets'=>$this->Numpets, 'Breed'=>$this->Breed, 'PetImage'=>$this->PetImage];
+        $stmt = petModel::connect()->prepare($sql);
+        $stmt->execute($args);
+        return $stmt;
+    }  
     
-    function viewpethotel(){
-        $sql = "select * from pethotel where pethotel_id=:pethotel_id";
-        $args = [':pethotel_id'=>$this->pethotel_id];
-        return DB::run($sql,$args);
-    }
-    
-
-    function deletepethotel(){
-        $sql = "delete from pethotel where pethotel_id=:pethotel_id";
-        $args = [':pethotel_id'=>$this->pethotel_id];
-        return DB::run($sql,$args);
-    }
-
-
-    function modifypethotel(){
-        $sql = "update pethotel set pethotel_name=:name,pethotel_details=:details,pethotel_quantity=:quantity,pethotel_price=:price,pethotel_image=:image where pethotel_id=:pethotel_id";
-        $args = [':pethotel_id'=>$this->pethotel_id, ':name'=>$this->name, ':details'=>$this->details,':price'=>$this->price, ':quantity'=>$this->quantity, ':image'=>$this->image];
-        return DB::run($sql,$args);
-    }   
 }
-class petvetModel{
-    public $petvet_id,$name,$details,$quantity,$price,$image;
-    
-    function addpetvet(){
-        $sql = "insert into petvet(petvet_name, petvet_details, petvet_quantity, petvet_price, petvet_image) values(:name, :details, :quantity, :price, :image)";
-        $args = [':name'=>$this->name, ':details'=>$this->details, ':quantity'=>$this->quantity, ':price'=>$this->price, ':image'=>$this->image];
-        $stmt = DB::run($sql, $args);
-        $count = $stmt->rowCount();
-        return $count;
-    }
-    
-    function viewallpetvet(){
-        $sql = "select * from petvet";
-        return DB::run($sql);
-    }
-    
-    function viewpetvet(){
-        $sql = "select * from petvet where petvet_id=:petvet_id";
-        $args = [':petvet_id'=>$this->petvet_id];
-        return DB::run($sql,$args);
-    }
-    
-
-    function deletepetvet(){
-        $sql = "delete from petvet where petvet_id=:petvet_id";
-        $args = [':petvet_id'=>$this->petvet_id];
-        return DB::run($sql,$args);
-    }
-
-
-    function modifypetvet(){
-        $sql = "update petvet set petvet_name=:name,petvet_details=:details,petvet_quantity=:quantity,petvet_price=:price,petvet_image=:image where petvet_id=:petvet_id";
-        $args = [':petvet_id'=>$this->petvet_id, ':name'=>$this->name, ':details'=>$this->details,':price'=>$this->price, ':quantity'=>$this->quantity, ':image'=>$this->image];
-        return DB::run($sql,$args);
-    }   
-}
+?>

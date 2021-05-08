@@ -1,162 +1,75 @@
 <?php
 require_once $_SERVER["DOCUMENT_ROOT"].'/RRMS/BusinessServicesLayer/model/petModel.php';
 
-class petgroomController{
-    
-    function add(){
-        $petgroom = new petModel();
-        // $petgroom->petgroom_id = $_POST['petgroom_id'];
-        $petgroom->name = $_POST['name'];
-        $petgroom->details = $_POST['details'];
-        $petgroom->quantity = $_POST['quantity'];
-        $petgroom->price = $_POST['price'];
-        $petgroom->image = $_POST['image'];
-        if($petgroom->addpetgroom() > 0){
-            $message = "Success Insert!";
+class petController{
+
+    function allPet(){
+        $allPet = new petModel();
+        return $allPet->allPet();
+    }
+
+    function petDetails($providerID){
+        $petDetails = new petModel();
+        $petDetails->providerID = $providerID;
+        return $petDetails->petDetails();
+    }
+
+    function myBookings($customerID){
+        $myBookings = new petModel();
+        $myBookings->customerID = $customerID;
+        return $myBookings->myBookings();
+    }
+
+    function updateServiceDetails($providerID){
+        $updateServiceDetails = new petModel();
+        $updateServiceDetails->providerID = $providerID;
+        $updateServiceDetails->PName= $_POST['updateName'];
+        $updateServiceDetails->PDescription= $_POST['updateDescription'];
+        $updateServiceDetails->PPrice = $_POST['updatePrice'];
+        $updateServiceDetails->APets = $_POST['updatePets'];
+        $updateServiceDetails->APetSize = $_POST['updatePetSize'];
+        $updateServiceDetails->Days = $_POST['updateDay'];
+        $updateServiceDetails->PImage = $_POST['updateImage'];
+
+        
+        if($updateServiceDetails->updateServiceDetails()){
+            $message = "Your information updated";
         echo "<script type='text/javascript'>alert('$message');
-        window.location = '../../ApplicationLayer/ManagePetAssistInterface/petgroom.php';</script>";
+        window.location = 'spManageService.php';</script>";
         }
     }
-    
-    function viewAll(){
-        $petgroom = new petModel();
-        return $petgroom->viewallpethotel();
-    }
-    
-    function viewpetgroom($petgroom_id){
-        $petgroom = new petModel();
-        $petgroom->petgroom_id = $petgroom_id;
-        return $petgroom->viewpetgroom();
-    }
-    
-    function editpetgroom(){
-        $petgroom = new petModel();
-        $petgroom->petgroom_id = $_POST['petgroom_id'];
-        $petgroom->name = $_POST['name'];
-        $petgroom->details = $_POST['details'];
-        $petgroom->quantity = $_POST['quantity'];
-        $petgroom->price = $_POST['price'];
-        $petgroom->image = $_POST['image'];
-        if($petgroom->modifypetgroom()){
-            $message = "Success Update!";
-        echo "<script type='text/javascript'>alert('$message');
-        window.location = '../../ApplicationLayer/ManagePetAssistInterface/viewpetgroom.php'?petgroom_id=".$_POST['petgroom_id']."';</script>";
+
+    function addPet($petImage){
+        $addPet = new petModel();
+        $addPet->providerID = $_POST['providerID'];
+        $addPet->PName= $_POST['PName'];
+        $addPet->PDescription = $_POST['PDescription'];
+        $addPet->PPrice = $_POST['PPrice'];
+        $addPet->PImage = $petImage;
+        
+        if($addPet->addPet()){
+            $message = "Your Service has been updated";
+        echo "<script type='text/javascript'>alert('$message');</script>";
         }
     }
-    
-    function delete(){
-        $petgroom = new petModel();
-        $petgroom->petgroom_id = $_POST['petgroom_id'];
-        if($petgroom->deletepetgroom()){
-            $message = "Success Delete!";
+
+    function makeBooking ($petImage){
+        $makeBooking = new petModel();
+        $makeBooking->customerID = $_POST['customerID'];
+        $makeBooking->ServiceP_ID = $_POST['ServiceP_ID'];
+        $makeBooking->Pdate= $_POST['Pdate'];
+        $makeBooking->Rdate = $_POST['Rdate'];
+        $makeBooking->PTime= $_POST['PTime'];
+        $makeBooking->RTime= $_POST['RTime'];
+        $makeBooking->Numpets= $_POST['Numpets'];
+        $makeBooking->Breed= $_POST['Breed'];
+        $makeBooking->PetImage = $petImage;
+        
+        if($makeBooking->makeBooking()){
+            $message = "Your Booking is successfull";
         echo "<script type='text/javascript'>alert('$message');
-        window.location = '../../ApplicationLayer/ManagePetAssistInterface/petgroom.php';</script>";
-        }
-    }
-}
-class pethotelController{
-    
-    function add(){
-        $pethotel = new pethotelModel();
-        // $pethotel->pethotel_id = $_POST['pethotel_id'];
-        $pethotel->name = $_POST['name'];
-        $pethotel->details = $_POST['details'];
-        $pethotel->quantity = $_POST['quantity'];
-        $pethotel->price = $_POST['price'];
-        $pethotel->image = $_POST['image'];
-        if($pethotel->addpethotel() > 0){
-            $message = "Success Insert!";
-        echo "<script type='text/javascript'>alert('$message');
-        window.location = '../../ApplicationLayer/ManagePetAssistInterface/pethotel.php';</script>";
-        }
-    }
-    
-    function viewAll(){
-        $pethotel = new pethotelModel();
-        return $pethotel->viewallpethotel();
-    }
-    
-    function viewpethotel($pethotel_id){
-        $pethotel = new pethotelModel();
-        $pethotel->pethotel_id = $pethotel_id;
-        return $pethotel->viewpethotel();
-    }
-    
-    function editpethotel(){
-        $pethotel = new pethotelModel();
-        $pethotel->pethotel_id = $_POST['pethotel_id'];
-        $pethotel->name = $_POST['name'];
-        $pethotel->details = $_POST['details'];
-        $pethotel->quantity = $_POST['quantity'];
-        $pethotel->price = $_POST['price'];
-        $pethotel->image = $_POST['image'];
-        if($pethotel->modifypethotel()){
-            $message = "Success Update!";
-        echo "<script type='text/javascript'>alert('$message');
-        window.location = '../../ApplicationLayer/ManagePetAssistInterface/pethotel.php'?pethotel_id=".$_POST['pethotel_id']."';</script>";
-        }
-    }
-    
-    function delete(){
-        $pethotel = new pethotelModel();
-        $pethotel->pethotel_id = $_POST['pethotel_id'];
-        if($pethotel->deletepethotel()){
-            $message = "Success Delete!";
-        echo "<script type='text/javascript'>alert('$message');
-        window.location = '../../ApplicationLayer/ManagePetAssistInterface/pethotel.php';</script>";
-        }
-    }
-}
-class petvetController{
-    
-    function add(){
-        $petvet = new petvetModel();
-        // $petvet->petvet_id = $_POST['petvet_id'];
-        $petvet->name = $_POST['name'];
-        $petvet->details = $_POST['details'];
-        $petvet->quantity = $_POST['quantity'];
-        $petvet->price = $_POST['price'];
-        $petvet->image = $_POST['image'];
-        if($petvet->addpetvet() > 0){
-            $message = "Success Insert!";
-        echo "<script type='text/javascript'>alert('$message');
-        window.location = '../../ApplicationLayer/ManagePetAssistInterface/petvet.php';</script>";
-        }
-    }
-    
-    function viewAll(){
-        $petvet = new petvetModel();
-        return $petvet->viewallpetvet();
-    }
-    
-    function viewpetvet($petvet_id){
-        $petvet = new petvetModel();
-        $petvet->petvet_id = $petvet_id;
-        return $petvet->viewpetvet();
-    }
-    
-    function editpetvet(){
-        $petvet = new petvetModel();
-        $petvet->petvet_id = $_POST['petvet_id'];
-        $petvet->name = $_POST['name'];
-        $petvet->details = $_POST['details'];
-        $petvet->quantity = $_POST['quantity'];
-        $petvet->price = $_POST['price'];
-        $petvet->image = $_POST['image'];
-        if($petvet->modifypetvet()){
-            $message = "Success Update!";
-        echo "<script type='text/javascript'>alert('$message');
-        window.location = '../../ApplicationLayer/ManagePetAssistInterface/petvet.php'?petvet_id=".$_POST['petvet_id']."';</script>";
-        }
-    }
-    
-    function delete(){
-        $petvet = new petvetModel();
-        $petvet->petvet_id = $_POST['petvet_id'];
-        if($petvet->deletepetvet()){
-            $message = "Success Delete!";
-        echo "<script type='text/javascript'>alert('$message');
-        window.location = '../../ApplicationLayer/ManagePetAssistInterface/petvet.php';</script>";
+        window.location.href='/RRMS/ApplicationLayer/ManagePetAssistInterface/petassistHome.php';
+        </script>";
         }
     }
 }
