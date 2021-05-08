@@ -7,7 +7,7 @@ session_start();
 
 ?>
 
-<?php include '../../includes/cusTopNaviBar.php';
+<?php include '../../includes/custTopNaviBarPets.php';
 
 
 $Role = $_SESSION['role'];
@@ -17,24 +17,48 @@ $Role = $_SESSION['role'];
 <html class="no-js" lang="zxx">
 
 <head>
+  <title>Homepage</title>
+  <style>
+    .myPet{
+      background: url(/RRMS/Images/Pet/petcare.jpg) no-repeat top right;
+      height: 500px;
+      width: 85%;
+      text-align: left;
+      font-family: Itim, cursive;
+    }
+    .text1{
+      width: 40%;
+      height: 250px;
+    }
+  </style>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
+
+
   <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Ensures optimal rendering on mobile devices. -->
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" /> <!-- Optimal Internet Explorer compatibility -->
+  <meta http-equiv="X-UA-Compatible" csontent="IE=edge" /> <!-- Optimal Internet Explorer compatibility -->
 </head>
 
 <body>
    
         <center>
-          <h1 class="bradcaump-title"  style="font-weight:bold; color:#333652; font-size:45px; text-align:center;">PET ASSIST </h1>     
-                <img src="/RRMS/Images/Pet/Animals.jpg" alt="product" images width=500 height=150 >
+        <h1 style="font-family:Itim, cursive;"  style="font-weight:bold; color:#333652; font-size:35px; text-align:center;">Book Loving Pet Care Services to better accommodate your pet </h1><br><br>
+          <div class="myPet">
+            <h2 style="text-decoration: underline;">Services provided</h2><br><br>
+            <div style="font-size: 30px"> 
+              <a href="/RRMS/ApplicationLayer/ManagePetAssistInterface/boardinglist.php">Pet Boarding</a>
+              <div class='text1'>
+               <p style="font-size: 20px">Perfect for when you need an overnight pet care. Choose from the different varieties of pet boarding places available according to your needs and preferences. Compare the different prices they offer and leave your pets to them without any doubt.</p><br></div>
+             </div>
+                <!--<img src="/RRMS/Images/Pet/petcare.jpg" alt="product" images width=500 height=150 >
 
 			
            
               <!-- Default panel contents -->
-             <div style="font-weight:bold; font-size:30px; color:#800000; text-align:left;"><center><br> Services    </center>
-     </div>
+             
 				
 			
-              <a href="/RRMS/ApplicationLayer/ManagePetAssistInterface/pethotel.php" style="font-weight:bold; font-size:20px; color:#90ADC6; text-align :left;">Pet Hotels & care services</a>
+              
         
       </center>
     
