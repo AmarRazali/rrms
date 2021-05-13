@@ -33,6 +33,7 @@
 
         <div class="topnav-right">
             <a href="/RRMS/ApplicationLayer/ManagePaymentView/orderList.php" title="My Order"><i class="fas fa-list" aria-hidden="true" style="font-size: 50px; padding-right: 5px; padding-left: 5px; padding-top: 20%; padding-bottom: 20%;"></i></a>
+            <a href="/RRMS/ApplicationLayer/ManagePetAssistInterface/myBookingsAll.php" title="My Bookings"><i class="fas fa-calendar-check" aria-hidden="true" style="font-size: 50px; padding-right: 5px; padding-left: 5px; padding-top: 20%; padding-bottom: 20%;"></i></a>
             <a href="/RRMS/ApplicationLayer/ManageLoginView/Account Interface.php" title="My Profile"><i class="fa fa-user" aria-hidden="true" style="font-size: 50px; padding-right: 5px; padding-left: 5px; padding-top: 22%; padding-bottom: 22%;"></i></a>
 
             <a href="/RRMS/ApplicationLayer/ManageLoginView/logout.php" title="Logout"><i class="fa fa-sign-out" aria-hidden="true" style="font-size: 48px; padding-right: 5px; padding-left: 5px; padding-top: 22%; padding-bottom: 22%;"></i></a>
