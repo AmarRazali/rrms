@@ -9,15 +9,15 @@ $Role = $_SESSION['role'];
 $customerID = $_SESSION['customerID'];
 $ServiceP_ID = $_GET['ServiceP_ID'];
 
-
 require_once $_SERVER["DOCUMENT_ROOT"].'/RRMS/BusinessServicesLayer/controller/petController.php';
 
 $makeBooking = new petController();
 
 if(isset($_POST['save'])){
-	$petImage = "/RRMS/Images/Pet/".basename($_FILES['petImage']['name']);		
+	$petImage = "/RRMS/Images/Pet/".basename($_FILES['petImage']['name']);	
 	$makeBooking->makeBooking($petImage);
 	}
+
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +26,7 @@ if(isset($_POST['save'])){
 	<title>Pet Boarding</title>
 	<style>
     .myPlatform{
-      height: 650px;
+      height: 700px;
       width: 75%;
       font-family: Itim, cursive;
       border: 5px outset #221A57;
@@ -48,10 +48,10 @@ if(isset($_POST['save'])){
   <meta http-equiv="X-UA-Compatible" csontent="IE=edge" /> <!-- Optimal Internet Explorer compatibility -->
 </head>
 <body>
-<center><br><br><br>
+	
+<center><br>
 <div class="myPlatform">
 	<form action="" method="POST" enctype="multipart/form-data">
-		<br><br>
 		<label for="sent1">I'm looking for service for my:</label><br>
 		<input type="checkbox" id="dog" name="Dog" value="Dog">
 		<label for="dog">Dog</label>
@@ -83,23 +83,24 @@ if(isset($_POST['save'])){
 		<label for="giant">Giant (45kg++)</label><br><br>
 
 		<div class="myInfo">
-		<label for="numpets">Number of Pets:</label>&nbsp&nbsp&nbsp&nbsp&nbsp
-		<input type="Number" id="Numpets" name="Numpets"><br>
+		<label for="image">Pet Image:</label>
+		<input type="file" name="petImage" required><br>
 
 		<label for="breed">Breed Description:</label>
 		<input type="text" id="Breed" name="Breed"><br>
 
-		<label for="image">Pet Image:</label>
-		<input type="file" name="petImage" required><br>
-		</div><br><br>
+		<label for="numpets">Number of Pets:</label>&nbsp&nbsp&nbsp&nbsp&nbsp
+		<input type="Number" id="Numpets" name="Numpets"><br>
+
+		<label for="numpets">Number of Days:</label>&nbsp&nbsp&nbsp&nbsp
+		<input type="Number" id="Numdays" name="Numdays"><br>
+		</div><br><br><br><br><br><br>
 
 		<div class="w3-container">
 		<input type="hidden" name="customerID" value="<?=$customerID;?>">
 		<input type="hidden" name="ServiceP_ID" value="<?=$ServiceP_ID;?>">
 		<input type="submit" name="save" value="Save" class="w3-circle w3-button w3-black">
- 	</div>
-
-
+ 		</div>
 
 	</form>
 </div>

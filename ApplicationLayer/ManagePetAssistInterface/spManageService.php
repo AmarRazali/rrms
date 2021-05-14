@@ -28,7 +28,7 @@ session_start();
 if ($Role==3) {
 ?>
   <div class="header">
-    <?php include '../../includes/ServicePTopNaviBarPets.php';?>
+    <?php include '../../includes/servicePTopNaviBarPets.php';?>
   </div>
 
     <br style="clear: both;"> 
@@ -48,7 +48,7 @@ if ($Role==3) {
 
     <center>
     <div class=myUpdate>
-    <form action="" method="POST">
+    <form action="" method="POST" enctype="multipart/form-data">
     <h1 style="font-size: 20px;">Service Information</h1><br>
         <div style="padding-left: 50px;">
         <label style="padding-right:50px;">Name of Boarding Centre:</label>
@@ -88,7 +88,7 @@ if ($Role==3) {
 
       $providerID = $_SESSION['providerID'];
 
-      $updateServiceDetails = new pet();
+      $updateServiceDetails = new petController();
       $updateServiceDetails->updateServiceDetails($providerID);
     }
     ?>

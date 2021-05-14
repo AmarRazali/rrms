@@ -24,8 +24,6 @@ if ($Role==3) {
 
             <a href="../ManagePetAssistInterface/spBookingsAll.php" style="margin-left: 30px;"><label style="font-size: 100%; padding-right: 5px; padding-top: 22px; padding-bottom: 20px;">View All Bookings</label></a>
 
-            <a href="../ManagePetAssistInterface/spAddService.php" style="margin-left: 30px;"><label style="font-size: 100%; padding-right: 5px; padding-top: 22px; padding-bottom: 20px;">Add Service</label></a>
-
             <a href="../ManageTrackingAnalyticView/serviceProviderReportPage.php" style="margin-left: 30px;"><label style="font-size: 100%; padding-right: 5px; padding-top: 22px; padding-bottom: 20px;">Analytic & Report</label></a>  
    
 

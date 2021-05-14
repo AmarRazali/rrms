@@ -20,6 +20,36 @@ class petController{
         return $myBookings->myBookings();
     }
 
+    function myBookingsAll($customerID){
+        $myBookingsAll = new petModel();
+        $myBookingsAll->customerID = $customerID;
+        return $myBookingsAll->myBookingsAll();
+    }
+
+    function myBookingsDetails($OrderPA_ID){
+        $myBookingsDetails = new petModel();
+        $myBookingsDetails->OrderPA_ID = $OrderPA_ID;
+        return $myBookingsDetails->myBookingsDetails();
+    }
+
+    function spBookingDetails($OrderPA_ID){
+        $spBookingDetails = new petModel();
+        $spBookingDetails->OrderPA_ID = $OrderPA_ID;
+        return $spBookingDetails->spBookingDetails();
+    }
+
+    function myBookingsSP($providerID){
+        $myBookingsSP = new petModel();
+        $myBookingsSP->providerID = $providerID;
+        return $myBookingsSP->myBookingsSP();
+    }
+
+    function myBookingsSPAll($providerID){
+        $myBookingsSPAll = new petModel();
+        $myBookingsSPAll->providerID = $providerID;
+        return $myBookingsSPAll->myBookingsSPAll();
+    }
+
     function updateServiceDetails($providerID){
         $updateServiceDetails = new petModel();
         $updateServiceDetails->providerID = $providerID;
@@ -39,17 +69,22 @@ class petController{
         }
     }
 
-    function addPet($petImage){
+    function addPet($pImage){
         $addPet = new petModel();
-        $addPet->providerID = $_POST['providerID'];
+        $addPet->ServiceP_ID = $_POST['ServiceP_ID'];
         $addPet->PName= $_POST['PName'];
         $addPet->PDescription = $_POST['PDescription'];
         $addPet->PPrice = $_POST['PPrice'];
-        $addPet->PImage = $petImage;
+        $addPet->APets = $_POST['APets'];
+        $addPet->APetSize = $_POST['APetSize'];
+        $addPet->ADays = $_POST['ADays'];
+        $addPet->PImage = $pImage;
         
         if($addPet->addPet()){
-            $message = "Your Service has been updated";
-        echo "<script type='text/javascript'>alert('$message');</script>";
+            $message = "Your Service has been added";
+       echo "<script type='text/javascript'>alert('$message');
+        window.location.href='/RRMS/ApplicationLayer/ManagePetAssistInterface/spPetHome.php';
+        </script>";
         }
     }
 
@@ -62,6 +97,7 @@ class petController{
         $makeBooking->PTime= $_POST['PTime'];
         $makeBooking->RTime= $_POST['RTime'];
         $makeBooking->Numpets= $_POST['Numpets'];
+        $makeBooking->Numdays= $_POST['Numdays'];
         $makeBooking->Breed= $_POST['Breed'];
         $makeBooking->PetImage = $petImage;
         
@@ -69,6 +105,68 @@ class petController{
             $message = "Your Booking is successfull";
         echo "<script type='text/javascript'>alert('$message');
         window.location.href='/RRMS/ApplicationLayer/ManagePetAssistInterface/petassistHome.php';
+        </script>";
+        }
+    }
+
+    function updateBooking1($OrderPA_ID){
+        $updateBooking1 = new petModel();
+        $updateBooking1->OrderPA_ID = $OrderPA_ID;
+        $updateBooking1->Totalprice = $_POST['Totalprice'];
+
+        if($updateBooking1->updateBooking1()){
+            $message = "Status changed";
+        echo "<script type='text/javascript'>alert('$message');
+        window.location.href='/RRMS/ApplicationLayer/ManagePetAssistInterface/spBookings.php';
+        </script>";
+        }
+    }
+
+    function updateBooking2($OrderPA_ID){
+        $updateBooking2 = new petModel();
+        $updateBooking2->OrderPA_ID = $OrderPA_ID;
+        $updateBooking2->Totalprice = $_POST['Totalprice'];
+
+        if($updateBooking2->updateBooking2()){
+            $message = "Status changed";
+        echo "<script type='text/javascript'>alert('$message');
+        window.location.href='/RRMS/ApplicationLayer/ManagePetAssistInterface/spBookings.php';
+        </script>";
+        }
+    }
+
+    function custDec($OrderPA_ID){
+        $custDec = new petModel();
+        $custDec->OrderPA_ID = $OrderPA_ID;
+
+        if($custDec->custDec()){
+            $message = "Proceeding to payment page";
+        echo "<script type='text/javascript'>alert('$message');
+        window.location.href='/RRMS/ApplicationLayer/ManagePaymentView/paymentCheckout.php';
+        </script>";
+        }
+    }
+
+    function custDec1($OrderPA_ID){
+        $custDec1 = new petModel();
+        $custDec1->OrderPA_ID = $OrderPA_ID;
+
+        if($custDec1->custDec1()){
+            $message = "Booking cancelled";
+        echo "<script type='text/javascript'>alert('$message');
+        window.location.href='/RRMS/ApplicationLayer/ManagePetAssistInterface/myBookingsPending.php';
+        </script>";
+        }
+    }
+
+    function complete($OrderPA_ID){
+        $complete = new petModel();
+        $complete->OrderPA_ID = $OrderPA_ID;
+
+        if($complete->complete()){
+            $message = "Appointment completed";
+        echo "<script type='text/javascript'>alert('$message');
+        window.location.href='/RRMS/ApplicationLayer/ManagePetAssistInterface/myBookingsAll.php';
         </script>";
         }
     }

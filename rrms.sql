@@ -89,6 +89,31 @@ CREATE TABLE `goodsservices` (
 
 INSERT INTO `goodsservices` (`GoodS_ID`, `ServiceP_ID`, `G_DistanceCost`, `G_WeightCost`) VALUES
 (1, 6, '3.00', '4.00');
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `petservices`
+--
+
+CREATE TABLE `petservices` (
+  `Pet_ID` int(11) NOT NULL,
+  `ServiceP_ID` int(11) NOT NULL,
+  `P_Name` varchar(50) NOT NULL,
+  `P_Description` varchar(255) NOT NULL,
+  `A_Pets` varchar(50) NOT NULL,
+  `A_PetSize` varchar(50) NOT NULL,
+  `P_Price` varchar(100) NOT NULL,
+  `Days` varchar(40) NOT NULL,
+  `P_Image` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `petservices`
+--
+
+INSERT INTO `petservices` (`Pet_ID`, `ServiceP_ID`, `P_Name`, `P_Description`, `A_Pets`, `A_PetSize`, `P_Price`, `Days`, `P_Image`) VALUES
+(1, 24, 'Barts Sanctuary', 'Your pet will be safe', 'Dogs and cats', 'Small and Medium', '50', 'Everyday except Friday and Saturday', '/RRMS/Images/Pet/ht1.png');
+
 
 -- --------------------------------------------------------
 
@@ -191,15 +216,18 @@ INSERT INTO `ordergoods` (`OrderG_ID`, `Cus_ID`, `GoodS_ID`, `R_ID`, `ServiceP_I
 CREATE TABLE `orderpetassist` (
   `OrderPA_ID` int(11) NOT NULL,
   `Cus_ID` int(11) NOT NULL,
-  `PA_ID` int(11) NOT NULL,
   `ServiceP_ID` int(11) NOT NULL,
-  `OPA_AssistType` varchar(50) NOT NULL,
-  `OPA_Date` date NOT NULL,
+  `OPA_Dropoff` date NOT NULL,
+  `OPA_Pickup` date NOT NULL,
+  `Pet_Image` text NOT NULL, 
   `OPA_TimeStart` time NOT NULL,
-  `OPATimeEnd` time NOT NULL,
-  `OPA_TotalPrice` decimal(10,0) NOT NULL,
-  `OPA_Address` varchar(255) NOT NULL,
-  `status` enum('Check Out','Paid') NOT NULL DEFAULT 'Check Out'
+  `OPA_TimeEnd` time NOT NULL,
+  `NumOfPets` varchar(100) NOT NULL,
+  `NumOfDays` varchar(100) NOT NULL,
+  `Breed` varchar(50) NOT NULL,
+  `OPA_TotalPrice` varchar(100) NOT NULL,
+  `statusSP` enum('Pending', 'Accepted', 'Declined', 'Completed') NOT NULL DEFAULT 'Pending',
+  `status` enum('Pending Payment','Paid', 'Cancelled') NOT NULL DEFAULT 'Pending Payment'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -258,31 +286,6 @@ INSERT INTO `paymentorder` (`Payment_ID`, `Cus_ID`, `Order_ID`, `ServiceP_ID`, `
 (32, 6, 247, 7, '152', '2021-01-12 12:17:36', 'Success'),
 (33, 6, 252, 7, '15', '2021-01-12 12:23:04', 'Success'),
 (34, 6, 253, 7, '456', '2021-01-12 12:24:22', 'Success');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pethotel`
---
-
-CREATE TABLE `pethotel` (
-  `pethotel_id` int(11) NOT NULL,
-  `pethotel_name` varchar(50) NOT NULL,
-  `pethotel_details` varchar(2556) NOT NULL,
-  `pethotel_quantity` int(11) NOT NULL,
-  `pethotel_price` float NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `pethotel`
---
-
-INSERT INTO `pethotel` (`pethotel_id`, `pethotel_name`, `pethotel_details`, `pethotel_quantity`, `pethotel_price`) VALUES
-(5, 'Lexi petshop', 'This is extraodinary place to bring care for your pet,feed and walk .', 1, 500),
-(701, 'rocky sanctuary', 'rocky place is a private house with an outdoors space for dogs', 1, 50),
-(703, 'Pet Playground', ' keeping the pets comfortable and allowing the pets to build trust towards them.', 1, 510),
-(704, 'Vet king', ' in the place we make sure your pet feel comfortable ', 1, 600),
-(705, 'Snow vet', ' to provide your dog with some free basic training.  Dogs will enjoy ', 1, 650);
 
 -- --------------------------------------------------------
 
@@ -462,12 +465,6 @@ ALTER TABLE `paymentorder`
   ADD PRIMARY KEY (`Payment_ID`);
 
 --
--- Indexes for table `pethotel`
---
-ALTER TABLE `pethotel`
-  ADD PRIMARY KEY (`pethotel_id`);
-
---
 -- Indexes for table `pharmacyservices`
 --
 ALTER TABLE `pharmacyservices`
@@ -492,6 +489,12 @@ ALTER TABLE `tracking`
   ADD PRIMARY KEY (`Tracking_ID`);
 
 --
+-- Indexes for table `petservices`
+--
+ALTER TABLE `petservices`
+  ADD PRIMARY KEY (`Pet_ID`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -512,6 +515,12 @@ ALTER TABLE `foodservices`
 --
 ALTER TABLE `goodsservices`
   MODIFY `GoodS_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `petservices`
+--
+ALTER TABLE `petservices`
+  MODIFY `Pet_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `orderdetails`
@@ -548,12 +557,6 @@ ALTER TABLE `orderpharmacy`
 --
 ALTER TABLE `paymentorder`
   MODIFY `Payment_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
-
---
--- AUTO_INCREMENT for table `pethotel`
---
-ALTER TABLE `pethotel`
-  MODIFY `pethotel_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=706;
 
 --
 -- AUTO_INCREMENT for table `pharmacyservices`

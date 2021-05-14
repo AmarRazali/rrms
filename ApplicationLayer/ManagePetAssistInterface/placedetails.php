@@ -63,8 +63,6 @@ session_start();
 	<?php
 	$Role=$_SESSION['role'];
 	$ServiceP_ID = $_GET['ServiceP_ID'];
-	//$providerID = $_SESSION['providerID'];
-
 
 
 	require_once $_SERVER["DOCUMENT_ROOT"].'/RRMS/BusinessServicesLayer/controller/petController.php';

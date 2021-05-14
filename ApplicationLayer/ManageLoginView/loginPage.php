@@ -144,7 +144,7 @@ session_start();
                             header("Location:../ManagePharmacyView/spPharHome.php");
                         }
                         else if($_SESSION['SPType'] == "Pet"){
-                            header("Location:../ManagePetView/spPetHome.php");
+                            header("Location:../ManagePetAssistInterface/spPetHome.php");
                         }
                     }
                     else{

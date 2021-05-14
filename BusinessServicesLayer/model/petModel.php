@@ -23,8 +23,49 @@ class petModel{
     }
 
     function myBookings(){
-        $sql = "select * from orderpetassist where Cus_ID=:customerID";
+        $sql = "select * from orderpetassist where Cus_ID=:customerID AND status='Pending Payment'";
         $args = [':customerID'=>$this->customerID];
+        $stmt = petModel::connect()->prepare($sql);
+        $stmt->execute($args);
+        return $stmt;
+    }
+
+    function myBookingsAll(){
+        $sql = "select * from orderpetassist where Cus_ID=:customerID AND status='Paid' OR status='Cancelled'";
+        $args = [':customerID'=>$this->customerID];
+        $stmt = petModel::connect()->prepare($sql);
+        $stmt->execute($args);
+        return $stmt;
+    }
+
+    function myBookingsDetails(){
+        $sql = "select * from orderpetassist where OrderPA_ID=:OrderPA_ID";
+        $args = [':OrderPA_ID'=>$this->OrderPA_ID];
+        $stmt = petModel::connect()->prepare($sql);
+        $stmt->execute($args);
+        return $stmt;
+    }
+
+
+    function spBookingDetails(){
+        $sql = "select * from orderpetassist where OrderPA_ID=:OrderPA_ID";
+        $args = [':OrderPA_ID'=>$this->OrderPA_ID];
+        $stmt = petModel::connect()->prepare($sql);
+        $stmt->execute($args);
+        return $stmt;
+    }
+
+     function myBookingsSP(){
+        $sql = "select * from orderpetassist where ServiceP_ID=:providerID AND statusSP='Pending'";
+        $args = [':providerID'=>$this->providerID];
+        $stmt = petModel::connect()->prepare($sql);
+        $stmt->execute($args);
+        return $stmt;
+    }
+
+    function myBookingsSPAll(){
+        $sql = "select * from orderpetassist where ServiceP_ID=:providerID AND statusSP!='Pending'";
+        $args = [':providerID'=>$this->providerID];
         $stmt = petModel::connect()->prepare($sql);
         $stmt->execute($args);
         return $stmt;
@@ -38,22 +79,62 @@ class petModel{
         return $stmt;
     }
 
+    function updateBooking1(){
+        $sql = "update orderpetassist set OPA_TotalPrice=:Totalprice, statusSP = 'Accepted' where  OrderPA_ID=:OrderPA_ID";
+        $args = [':OrderPA_ID'=>$this->OrderPA_ID, ':Totalprice'=>$this->Totalprice];
+        $stmt = petModel::connect()->prepare($sql);
+        $stmt->execute($args);
+        return $stmt;
+    }
+
+    function updateBooking2(){
+        $sql = "update orderpetassist set OPA_TotalPrice=:Totalprice, statusSP = 'Declined', status = 'Cancelled' where  OrderPA_ID=:OrderPA_ID";
+        $args = [':OrderPA_ID'=>$this->OrderPA_ID, ':Totalprice'=>$this->Totalprice];
+        $stmt = petModel::connect()->prepare($sql);
+        $stmt->execute($args);
+        return $stmt;
+    }
+
+    function custDec(){
+        $sql = "update orderpetassist set status = 'Paid' where OrderPA_ID=:OrderPA_ID";
+        $args = [':OrderPA_ID'=>$this->OrderPA_ID];
+        $stmt = petModel::connect()->prepare($sql);
+        $stmt->execute($args);
+        return $stmt;
+    }
+
+     function custDec1(){
+        $sql = "update orderpetassist set status = 'Cancelled' where OrderPA_ID=:OrderPA_ID";
+        $args = [':OrderPA_ID'=>$this->OrderPA_ID];
+        $stmt = petModel::connect()->prepare($sql);
+        $stmt->execute($args);
+        return $stmt;
+    }
+
+    function complete(){
+        $sql = "update orderpetassist set statusSP = 'Completed' where OrderPA_ID=:OrderPA_ID";
+        $args = [':OrderPA_ID'=>$this->OrderPA_ID];
+        $stmt = petModel::connect()->prepare($sql);
+        $stmt->execute($args);
+        return $stmt;
+    }
 
      function addPet(){
-        $sql = "insert into petservices (ServiceP_ID, P_Name, P_Description, P_Price, P_Image) values (:providerID, :PName, :PDescription, :PPrice, :PImage)";
-        $args = [':providerID'=>$this->providerID, ':PName'=>$this->PName, ':PDescription'=>$this->PDescription, ':PPrice'=>$this->PPrice, ':PImage'=>$this->PImage];
+        $sql = "insert into petservices (ServiceP_ID, P_Name, P_Description, P_Price, A_Pets, A_PetSize, Days, P_Image) values (:ServiceP_ID, :PName, :PDescription, :PPrice, :APets, :APetSize, :ADays, :PImage)";
+        $args = [':ServiceP_ID'=>$this->ServiceP_ID, ':PName'=>$this->PName, ':PDescription'=>$this->PDescription, ':PPrice'=>$this->PPrice, ':APets'=>$this->APets, ':APetSize'=>$this->APetSize,
+        ':ADays'=>$this->ADays, ':PImage'=>$this->PImage];
         $stmt = petModel::connect()->prepare($sql);
         $stmt->execute($args);
         return $stmt;
     }
 
     function makeBooking(){
-        $sql = "insert into orderpetassist (Cus_ID, ServiceP_ID, OPA_Dropoff, OPA_Pickup, OPA_TimeStart, OPA_TimeEnd, NumOfPets, Breed, Pet_Image) values (:customerID, :ServiceP_ID, :Pdate, :Rdate, :PTime, :RTime, :Numpets, :Breed, :PetImage)";
-        $args = [':customerID'=>$this->customerID, ':ServiceP_ID'=>$this->ServiceP_ID, ':Pdate'=>$this->Pdate, ':Rdate'=>$this->Rdate, ':PTime'=>$this->PTime, ':RTime'=>$this->RTime, 'Numpets'=>$this->Numpets, 'Breed'=>$this->Breed, 'PetImage'=>$this->PetImage];
+        $sql = "insert into orderpetassist (Cus_ID, ServiceP_ID, OPA_Dropoff, OPA_Pickup, OPA_TimeStart, OPA_TimeEnd, NumOfPets, NumOfDays, Breed, Pet_Image) values (:customerID, :ServiceP_ID, :Pdate, :Rdate, :PTime, :RTime, :Numpets, :Numdays, :Breed, :PetImage)";
+        $args = [':customerID'=>$this->customerID, ':ServiceP_ID'=>$this->ServiceP_ID, ':Pdate'=>$this->Pdate, ':Rdate'=>$this->Rdate, ':PTime'=>$this->PTime, ':RTime'=>$this->RTime, 'Numpets'=>$this->Numpets, 'Numdays'=>$this->Numdays, 'Breed'=>$this->Breed, 'PetImage'=>$this->PetImage];
         $stmt = petModel::connect()->prepare($sql);
         $stmt->execute($args);
         return $stmt;
-    }  
+    }
     
 }
 ?>
