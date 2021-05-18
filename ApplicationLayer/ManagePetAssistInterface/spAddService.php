@@ -18,16 +18,7 @@ session_start();
 
   <?php
   $Role=$_SESSION['role'];
-  $ServiceP_ID = $_GET['ServiceP_ID'];
-
-    require_once $_SERVER["DOCUMENT_ROOT"].'/RRMS/BusinessServicesLayer/controller/petController.php';
-    $addPet = new petController();
-
-    if(isset($_POST['add'])){
-
-    $pImage = "/RRMS/Images/Pet/".basename($_FILES['pImage']['name']);  
-    $addPet->addPet($pImage);
-    }
+  $providerID = $_SESSION['providerID'];
   ?>
 </head>
 <body>
@@ -66,7 +57,7 @@ session_start();
         <label for="image" style="width: 200px;">Company Image:</label>
         <input type="file" name="pImage" required><br>
     <div>
-      <input type="hidden" name="ServiceP_ID" value="<?=$ServiceP_ID;?>">
+          <input type="hidden" name="ServiceP_ID" value="<?=$ServiceP_ID;?>">
       <input type="submit" name="add" value="Add Service" class="w3-circle w3-button w3-black">
     </div>
   </div>
@@ -76,6 +67,16 @@ session_start();
 
   
     </form>
+    <?php
+    require_once $_SERVER["DOCUMENT_ROOT"].'/RRMS/BusinessServicesLayer/controller/petController.php';
+    $addPet = new petController();
+
+    if(isset($_POST['add'])){
+
+    $pImage = "/RRMS/Images/Pet/".basename($_FILES['pImage']['name']);  
+    $addPet->addPet($pImage);
+    }
+    ?>
  <br style="clear: both;"> 
   </div>
 </body>
