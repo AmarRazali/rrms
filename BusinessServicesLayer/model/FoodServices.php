@@ -11,8 +11,6 @@ class FoodServicesModel {
         return $pdo;
     }
 
-    
-
     //function to insert product data
     function addFood(){
     	$sql = "insert into foodservices (ServiceP_ID, F_Name, F_Description, F_Price, F_Image) values (:providerID, :FName, :FDescription, :FPrice, :FImage)";
@@ -56,9 +54,12 @@ class FoodServicesModel {
     }
 
     //function to view all product data for customer 
-   function allFood(){
-        $sql = "select * from foodservices";
-        return FoodServicesModel::connect()->query($sql);;
+   function allFoodbyRestaurant(){
+        $sql = "SELECT * FROM foodservices WHERE ServiceP_ID=:ServicePID";
+        $args = [':ServicePID'=>$this->ServicePID];
+        $stmt = FoodServicesModel::connect()->prepare($sql);
+        $stmt->execute($args);
+        return $stmt;
     }
 
     //fucntion to view details data on product

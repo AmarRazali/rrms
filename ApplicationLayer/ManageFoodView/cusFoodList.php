@@ -1,5 +1,7 @@
 <?php
 session_start();
+
+require_once $_SERVER["DOCUMENT_ROOT"].'/RRMS/BusinessServicesLayer/controller/FoodServices Controller.php';
 ?>
 
 <!DOCTYPE html>
@@ -31,8 +33,12 @@ session_start();
 
 
 
-<?php
+	<?php
 		$Role = $_SESSION['role'];
+		$ServiceP_ID = $_GET['ServiceP_ID'];
+
+	$productdata = new foodServicesController();
+	$data = $productdata->allFoodbyRestaurant($ServiceP_ID);
 	?>	
 
 </head>
@@ -52,12 +58,6 @@ session_start();
 	<div>
 	<!-- Content Mainpage Customer-->
 	<?php
-	require_once $_SERVER["DOCUMENT_ROOT"].'/RRMS/BusinessServicesLayer/controller/FoodServices Controller.php';
-
-	$productdata = new foodServicesController();
-	$data = $productdata->allFood();
-
-
 		foreach ($data as $row) {
 			?>
 			<a href="../ManageFoodView/cusFoodDetails.php?Food_ID=<?=$row['Food_ID'];?>">

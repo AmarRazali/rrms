@@ -58,9 +58,10 @@ class foodServicesController{
 	}
 
 	//function to view all product on customer mainpage
-    function allFood(){
+    function allFoodbyRestaurant($ServiceP_ID){
         $allFood = new FoodServicesModel();
-        return $allFood->allFood();
+		$allFood->ServicePID = $ServiceP_ID;
+        return $allFood->allFoodbyRestaurant();
     }
 
 	//function to view details on product

@@ -32,11 +32,19 @@ class registrationModel{
         return $stmt;
     }
 
+    function addFood(){
+    	$sql = "insert into foodservices (ServiceP_ID, F_Name, F_Description, F_Price, F_Image) values (:providerID, :FName, :FDescription, :FPrice, :FImage)";
+    	$args = [':providerID'=>$this->providerID, ':FName'=>$this->FName, ':FDescription'=>$this->FDescription, ':FPrice'=>$this->FPrice, ':FImage'=>$this->FImage];
+    	$stmt = FoodServicesModel::connect()->prepare($sql);
+        $stmt->execute($args);
+        return $stmt;
+    }
+
     //Function adding Service Provider Data into database
     function addServiceProvider(){
-        $sql = "insert into serviceprovider(Role_No,SP_Type, SP_Name, SP_BussRegNo, SP_Address, SP_PhoneNo, SP_Email, SP_Password, SP_BankType, SP_AccNo) values(:role, :SPType, :SPName, :SPBussRegNo, :SPAddress, :SPPhoneNo, :SPEmail, :SPPassword, :SPBankType, :SPAccNo)";
+        $sql = "insert into serviceprovider(Role_No,SP_Type, SP_Name, SP_BussRegNo, SP_Address, SP_PhoneNo, SP_Email, SP_Password, SP_BankType, SP_AccNo, SP_Image) values(:role, :SPType, :SPName, :SPBussRegNo, :SPAddress, :SPPhoneNo, :SPEmail, :SPPassword, :SPBankType, :SPAccNo, :SPLogo)";
         $args = [':role'=>$this->role,':SPType'=>$this->SPType, ':SPName'=>$this->SPName, ':SPBussRegNo'=>$this->SPBussRegNo, ':SPAddress'=>$this->SPAddress, ':SPPhoneNo'=>$this->SPPhoneNo, ':SPEmail'=>$this->SPEmail, ':SPPassword'=>$this->SPPassword, ':SPBankType'=>$this->SPBankType, 
-            ':SPAccNo'=>$this->SPAccNo];
+            ':SPAccNo'=>$this->SPAccNo, ':SPLogo'=>$this->SPLogo];
         $stmt = registrationModel::connect()->prepare($sql);
         $stmt->execute($args);
         return $stmt;

@@ -117,7 +117,7 @@ session_start();
 	</div>
 	<div style="float: right;padding: 40px;margin-right: 200px;">
 		<input type="button" name="order" value="Order Now" id="buttonOrder" onclick="location.href='/RRMS/ApplicationLayer/ManageFoodView/cartFood.php?Food_ID=<?=$row['Food_ID'];?>'">
-		<input type="button" onclick="location.href='/RRMS/ApplicationLayer/ManageFoodView/cusFoodList.php'" value="Back Main Menu" id="buttonPaid">
+		<input type="button" onclick="location.href='/RRMS/ApplicationLayer/ManageFoodView/cusFoodList.php?ServiceP_ID=<?=$row['ServiceP_ID'];?>'" value="Back Main Menu" id="buttonPaid">
 	</div>
 	<!-- Product details Content End-->
 </body>
