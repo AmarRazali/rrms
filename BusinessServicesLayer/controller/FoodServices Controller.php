@@ -51,12 +51,17 @@ class foodServicesController{
         }
 	}
 
+	//function to view restaurant list on customer mainpage
+	function allRestaurant){
+		$allRestaurant = new FoodServicesModel();
+		return $allRestaurant->allRestaurant();
+	}
+
 	//function to view all product on customer mainpage
     function allFood(){
         $allFood = new FoodServicesModel();
         return $allFood->allFood();
     }
-
 
 	//function to view details on product
 	function foodDetails($FoodID){

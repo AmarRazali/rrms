@@ -49,6 +49,12 @@ class FoodServicesModel {
         return $stmt;
     }
 
+    //function to view all restaurant data for customer 
+    function allRestaurant(){
+        $sql = "select * from serviceprovider where SP_Type='Food'";
+        return FoodServicesModel::connect()->query($sql);;
+    }
+
     //function to view all product data for customer 
    function allFood(){
         $sql = "select * from foodservices";
