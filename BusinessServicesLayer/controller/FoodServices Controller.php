@@ -52,7 +52,7 @@ class foodServicesController{
 	}
 
 	//function to view restaurant list on customer mainpage
-	function allRestaurant){
+	function allRestaurant(){
 		$allRestaurant = new FoodServicesModel();
 		return $allRestaurant->allRestaurant();
 	}
