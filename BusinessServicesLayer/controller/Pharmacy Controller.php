@@ -45,7 +45,7 @@ class PharmacyController{
 	//function for provider to delete their product
 	function deleteItem(){
 		$deleteItem = new PharmacyServicesModel();
-		$deleteItem->FoodID = $_POST['ItemID'];
+		$deleteItem->ItemID = $_POST['ItemID'];
 		
 		if($deleteItem->deleteItem()){
             $message = "Successfully deleted";
@@ -73,6 +73,7 @@ class PharmacyController{
 	//	$checkoutData->ItemID= $ItemID;
 	//	return $checkoutData->checkoutData();
 	//}
+
 
 }
 ?>
