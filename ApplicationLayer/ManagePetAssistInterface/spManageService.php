@@ -86,10 +86,11 @@ if ($Role==3) {
     if(isset($_POST['updateinfo'])){
       require_once $_SERVER["DOCUMENT_ROOT"].'/RRMS/BusinessServicesLayer/controller/petController.php';
 
+      $pImage = "/RRMS/Images/Pet/".basename($_FILES['updateImage']['name']);  
       $providerID = $_SESSION['providerID'];
 
       $updateServiceDetails = new petController();
-      $updateServiceDetails->updateServiceDetails($providerID);
+      $updateServiceDetails->updateServiceDetails($providerID,$pImage);
     }
     ?>
  <br style="clear: both;"> 

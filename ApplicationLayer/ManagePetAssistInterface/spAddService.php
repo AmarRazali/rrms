@@ -57,7 +57,7 @@ session_start();
         <label for="image" style="width: 200px;">Company Image:</label>
         <input type="file" name="pImage" required><br>
     <div>
-          <input type="hidden" name="ServiceP_ID" value="<?=$ServiceP_ID;?>">
+          <input type="hidden" name="ServiceP_ID" value="<?=$providerID;?>">
       <input type="submit" name="add" value="Add Service" class="w3-circle w3-button w3-black">
     </div>
   </div>
