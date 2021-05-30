@@ -29,13 +29,12 @@
 		background-color: #D1D3D6;
 	}
 </style>
+
 <html>
 <head>
 	<title>RRMS</title>
 
 	<link rel="stylesheet" type="text/css" href="../../includes/ExternalCSS/topnav.css">
-
-
 
 	<?php
 		$Role=$_SESSION['role'];
@@ -44,22 +43,48 @@
 
 		require_once $_SERVER["DOCUMENT_ROOT"].'/RRMS/BusinessServicesLayer/controller/FoodServices Controller.php';
 
-		require_once $_SERVER["DOCUMENT_ROOT"].'/RRMS/BusinessServicesLayer/controller/Registration Controller.php';
-		$viewUserData = new registrationController();
-		$data = $viewUserData->viewDataCustomer($CusID);
-		
-		foreach ($data as $row) {
-			$cusAdd=$row['Cus_Address'];
-		}
+		$viewCart = new foodServicesController();
+		$result = $viewCart->viewCart($CusID);
 
+		if(isset($_POST['addcart'])){
 
-		$foodDetails = new foodServicesController();
-		$data = $foodDetails->foodDetails($FoodID);
+            if($result==0)
+            {
+                $createCart = new foodServicesController();
+                $createCart->createCart();
+				$getCart = new foodServicesController();
+				$orderfid = $getCart->getCart($CusID);
+				$addCart = new foodServicesController();
+				$addCart->addCart($orderfid);
+            }
+			else if($result==1)
+			{
+				$getCart = new foodServicesController();
+		  		$orderfid = $getCart->getCart($CusID);
+
+				$checkCart = new foodServicesController();
+				$emptycart = $checkCart->checkCart($orderfid);
+
+				if($emptycart==0)
+				{
+					$addCart = new foodServicesController();
+					$addCart->addCart($orderfid);
+				}
+				else if($emptycart==1)
+				{
+					$updateCart = new foodServicesController();
+					$updateCart->updateCart($orderfid);
+				}
+			}
+	
+          }
+
+		  $getCart = new foodServicesController();
+		  $orderfid = $getCart->getCart($CusID);
+
 	?>
-
-
-
 </head>
+
 <body>
 	<div>
 		<?php include '../../includes/cusTopNaviBar.php';?>
@@ -75,70 +100,77 @@
 	<div style="width: 60%;float: center;margin: 40px; margin-left: 350px;">
 		<table id="tableCart">
 			<tr id="tableCart">
-				<th style="width: 20px;">No</th>
-				<th>Food Name</th>
-				<th>Quantity</th>
-				<th>Price</th>
-				<th>Action</th>
+				<th style="width: 40px;">No</th>
+				<th><center>Food Name<?=$emptycart;?></center></th>
+				<th><center>Quantity</center></th>
+				<th><center>Price</center></th>
+				<th><center>Action</center></th>
 			</tr>
 			<?php
-			foreach ($data as $row) {
+			if($result==1)
+			{	
+				$viewfoodID = new foodServicesController();
+				$data1 = $viewfoodID->viewfoodID($orderfid);
+				$i = 1;
+				$totalprice = 0;
+				foreach ($data1 as $row1) 
+				{
+				$foodDetails = new foodServicesController();
+				$data2 = $foodDetails->foodDetails($row1['Food_ID']);
+				foreach ($data2 as $row2) 
+				{
 			?>
-			<form action="" method="POST">
-			<tr>
-				<td>1</td>
-				<td><?=$row['F_Name'];?></td>
-				<td><input type="number" name="quantity" value="1" style="width: 40px;"></td>
-				<td>
-					<?php $totalprice = $row['F_Price'];?>
-					RM <?=$row['F_Price'];?>
-				</td>
-				<td>
-					<?php
-						$date = date("Y-m-d"); 
-						$FoodID = $row['Food_ID']; 
-						$FoodName = $row['F_Name']; 
-						$spID = $row['ServiceP_ID']; 
-						$F_Description = $row['F_Description'];
-					?>
-					<input type="submit" name="update" value="Update">
-				</td>
-			</tr>
-			</form>
-			<?php
+				<form action="" method="POST">
+				<tr>
+					<td><?=$i;?></td>
+					<td><?=$row2['F_Name'];?></td>
+					<td style="width: 40px;">
+						<input type="number" name="quantity" value="<?=$row1['OF_Quantity'];?>">
+						<input type="hidden" name="cartid" value="<?=$row1['Cart_ID'];?>">
+					</td>
+					<td>
+						<?php
+							$totalprice = $totalprice + $row2['F_Price']*$row1['OF_Quantity'];
+						?>RM <?=$row2['F_Price'];?>
+					</td>
+					<td style="width: 200px;">
+						<input type="submit" name="update" value="Update">
+						<input type="submit" name="delete" value="Delete">
+					</td>
+				</tr>
+				</form>
+				<?php
+				}$i++;
+				}
+				if(isset($_POST['update'])){
+					$quantity = $_POST['quantity'];
+					$cartid = $_POST['cartid'];
+					$updateQuan = new foodServicesController();
+					$updateQuan->updateQuan($quantity, $cartid);
+					echo "<meta http-equiv='refresh' content='0'>";
+				}
+				if(isset($_POST['delete'])){
+					$cartid = $_POST['cartid'];
+					$deleteCart = new foodServicesController();
+					$deleteCart->deleteCart($cartid);
+					echo "<meta http-equiv='refresh' content='0'>";
+				}
 			}
-
-			if(isset($_POST['update'])){
-				$quantity = $_POST['quantity'];
-				$totalprice = $totalprice * $quantity;
-			}
-			else{
-				$totalprice = $totalprice;
-			}
-			?>
+				?>
 
 			<tr>
 				<td colspan="3" style="text-align: right;">Total Price</td>
-				<td colspan="2">RM <?=$totalprice;?></td>
+				<td>RM <?=$totalprice;?></td>
+				<td><input type="submit" name="checkout" value="CheckOut!"></td>
 			</tr>
+			<?php
+			$updatetotalP = new foodServicesController();
+            $updatetotalP->updatetotalP($totalprice,$orderfid);
+			?>
 		</table>
-
-		<div style="float: right;margin: 20px;">
-			<form action="/RRMS/ApplicationLayer/ManagePaymentView/paymentCheckout.php" method="POST">
-				<input type="hidden" name="cusID" value="<?=$CusID;?>">
-				<input type="hidden" name="FoodID" value="<?=$FoodID;?>">
-				<input type="hidden" name="spID" value="<?=$spID;?>">
-				<input type="hidden" name="Quantity" value="<?=$quantity;?>">
-				<input type="hidden" name="totalPrice" value="<?=$totalprice;?>">		
-				<input type="hidden" name="cusAdd" value="<?=$cusAdd;?>">	
-				<input type="hidden" name="F_Name" value="<?=$FoodName;?>">	
-				<input type="hidden" name="F_description" value="<?=$F_Description;?>">		
-				<input type="submit" name="checkoutF" value="Checkout">							
-			</form>
-		</div>
 	</div>
-	
 	<!-- Cart Content End -->
+
 </div>
 
 </body>

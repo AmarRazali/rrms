@@ -52,7 +52,7 @@ session_start();
 		border: 1px solid darkgreen;
 		cursor: pointer;
 }
-	#buttonPaid {
+	#restaurantMenu {
 		background-color: red;
 		color: white;
 		width: 150px;
@@ -60,6 +60,16 @@ session_start();
 		border: 1px solid red;
 		border-radius: 20px;
 	}
+
+	#addcart {
+		background-color: green;
+		color: white;
+		width: 150px;
+		height: 30px;
+		border: 1px solid green;
+		border-radius: 20px;
+	}
+
 
 </style>
 <html>
@@ -70,13 +80,24 @@ session_start();
 
 	<?php
 	$Role=$_SESSION['role'];
+	$CusID=$_SESSION['customerID'] ;
 	$Food_ID = $_GET['Food_ID'];
 
 	require_once $_SERVER["DOCUMENT_ROOT"].'/RRMS/BusinessServicesLayer/controller/FoodServices Controller.php';
 
 	$foodDetails = new foodServicesController();
 	$data = $foodDetails->foodDetails($Food_ID);
+	
+	foreach ($data as $row) {
+		$spID = $row['ServiceP_ID']; 
+		$foodImage = $row['F_Image']; 
+		$foodName= $row['F_Name']; 
+		$foodDesc = $row['F_Description']; 
+		$foodPrice = $row['F_Price']; 
+	}
+
 	?>
+
 </head>
 <body>
 	<div>
@@ -91,33 +112,34 @@ session_start();
 	<!-- Product details Content -->
 	<div style="margin: 30px;float: center;">
 		<table id="tableProductDetails">
-			<?php
-			foreach ($data as $row) {
-			?>
 			<tr>
-				<th colspan="2" rowspan="4"><img src="<?=$row['F_Image'];?>" style="width: 100%;height: 100%;"></th>
+				<th colspan="2" rowspan="4"><center><img src="<?=$foodImage;?>" style="width: 356px;height: 356px;"></center></th>
 				<th colspan="2"><h2><center>Food Details</center></h2></th>
 			</tr>
 			<tr>
 				<td>Food Name</td>
-				<td><?=$row['F_Name'];?></td>
+				<td><?=$foodName;?></td>
 			</tr>
 			<tr>
 				<td>Details</td>
-				<td><?=$row['F_Description'];?></td>
+				<td><?=$foodDesc;?></td>
 			</tr>
 			<tr>
 				<td>Price per unit</td>
-				<td>RM <?=$row['F_Price'];?></td>
+				<td>RM <?=$foodPrice;?></td>
 			</tr>
-			<?php
-			}
-			?>
 		</table>
 	</div>
 	<div style="float: right;padding: 40px;margin-right: 200px;">
-		<input type="button" name="order" value="Order Now" id="buttonOrder" onclick="location.href='/RRMS/ApplicationLayer/ManageFoodView/cartFood.php?Food_ID=<?=$row['Food_ID'];?>'">
-		<input type="button" onclick="location.href='/RRMS/ApplicationLayer/ManageFoodView/cusFoodList.php?ServiceP_ID=<?=$row['ServiceP_ID'];?>'" value="Back Main Menu" id="buttonPaid">
+		
+		<form action="/RRMS/ApplicationLayer/ManageFoodView/cartFood.php" method="POST">
+				<input type="hidden" name="cusID" value="<?=$CusID;?>">
+				<input type="hidden" name="spID" value="<?=$spID;?>">
+				<input type="hidden" name="Food_ID" value="<?=$Food_ID;?>">
+				<input type="submit" name="addcart" value="Add to Cart" id="addcart">							
+		</form>
+		<br>
+		<input type="button" onclick="location.href='/RRMS/ApplicationLayer/ManageFoodView/cusFoodList.php?ServiceP_ID=<?=$row['ServiceP_ID'];?>'" value="Back Main Menu" id="restaurantMenu">
 	</div>
 	<!-- Product details Content End-->
 </body>
