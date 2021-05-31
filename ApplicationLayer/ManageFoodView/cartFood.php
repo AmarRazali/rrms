@@ -1,5 +1,11 @@
 <?php
 	session_start();
+	$Role=$_SESSION['role'];
+	$CusID=$_SESSION['customerID'] ;
+	$FoodID = $_GET['Food_ID'];
+
+	require_once $_SERVER["DOCUMENT_ROOT"].'/RRMS/BusinessServicesLayer/controller/FoodServices Controller.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -37,17 +43,10 @@
 	<link rel="stylesheet" type="text/css" href="../../includes/ExternalCSS/topnav.css">
 
 	<?php
-		$Role=$_SESSION['role'];
-		$CusID=$_SESSION['customerID'] ;
-		$FoodID = $_GET['Food_ID'];
-
-		require_once $_SERVER["DOCUMENT_ROOT"].'/RRMS/BusinessServicesLayer/controller/FoodServices Controller.php';
-
 		$viewCart = new foodServicesController();
 		$result = $viewCart->viewCart($CusID);
 
 		if(isset($_POST['addcart'])){
-
             if($result==0)
             {
                 $createCart = new foodServicesController();
@@ -65,15 +64,27 @@
 				$checkCart = new foodServicesController();
 				$emptycart = $checkCart->checkCart($orderfid);
 
-				if($emptycart==0)
+				$checkRestaurant = new foodServicesController();
+				$samerestaurant = $checkRestaurant->checkRestaurant($orderfid);
+
+				if($samerestaurant==0)
 				{
-					$addCart = new foodServicesController();
-					$addCart->addCart($orderfid);
+					$updateofID = new foodServicesController();
+					$updateofID->updateofID($orderfid);
+					echo '<script type ="text/JavaScript">alert("Your food in cart has been removed because you select item from different restaurant")</script>';  
 				}
-				else if($emptycart==1)
+				else if($samerestaurant==1)
 				{
-					$updateCart = new foodServicesController();
-					$updateCart->updateCart($orderfid);
+						if($emptycart==0)
+					{
+						$addCart = new foodServicesController();
+						$addCart->addCart($orderfid);
+					}
+					else if($emptycart==1)
+					{
+						$updateCart = new foodServicesController();
+						$updateCart->updateCart($orderfid);
+					}
 				}
 			}
 	
@@ -101,7 +112,7 @@
 		<table id="tableCart">
 			<tr id="tableCart">
 				<th style="width: 40px;">No</th>
-				<th><center>Food Name<?=$emptycart;?></center></th>
+				<th><center>Food Name</center></th>
 				<th><center>Quantity</center></th>
 				<th><center>Price</center></th>
 				<th><center>Action</center></th>

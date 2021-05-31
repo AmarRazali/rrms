@@ -108,6 +108,23 @@ class foodServicesController{
 		return $checkCart->checkCart();
 	}
 
+	//function to check same restaurant
+	function checkRestaurant($orderfid){
+		$checkRestaurant = new FoodServicesModel();
+		$checkRestaurant->orderfID = $orderfid;
+		$checkRestaurant->spID=$_POST['spID'];
+		return $checkRestaurant->checkRestaurant();
+	}	
+
+	//function to update ofID
+	function updateofID($orderfid){
+		$updateofID = new FoodServicesModel();
+		$updateofID->orderfID = $orderfid;
+		$updateofID->spID=$_POST['spID'];
+		$updateofID->food_ID=$_POST['Food_ID'];
+		$updateofID->updateofID();
+	}
+
 	//function to add food into cart
 	function addCart($orderfid){
 		$addCart = new FoodServicesModel();

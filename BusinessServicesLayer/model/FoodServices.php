@@ -119,6 +119,32 @@ class FoodServicesModel {
         return $emptycart;
     }
 
+    //fucntion to check same restaurant
+    function checkRestaurant(){
+        $sql = "SELECT EXISTS(SELECT * FROM orderfood WHERE ServiceP_ID=:spID AND OrderF_ID=:orderfID)" ;
+        $args = [':spID'=>$this->spID, ':orderfID'=>$this->orderfID];
+        $stmt = FoodServicesModel::connect()->prepare($sql);
+        $stmt->execute($args);
+        $samerestaurant = $stmt->fetchColumn();
+        return $samerestaurant;
+    }
+
+    //fucntion to update ofID by deleting all item in cart, changing spID and adding food
+    function updateofID(){
+        $sql = "DELETE FROM cartfood WHERE OrderF_ID=:orderfID";
+        $sql2 = "UPDATE orderfood SET ServiceP_ID=:spID WHERE OrderF_ID=:orderfID";
+        $sql3 = "INSERT INTO cartfood(OrderF_ID, Food_ID, OF_Quantity) values (:orderfID, :food_ID, '1')";
+        $args = [':orderfID'=>$this->orderfID];
+        $args2 = [':spID'=>$this->spID, ':orderfID'=>$this->orderfID];
+        $args3 = [':orderfID'=>$this->orderfID, ':food_ID'=>$this->food_ID];
+        $stmt = FoodServicesModel::connect()->prepare($sql);
+        $stmt->execute($args);
+        $stmt2 = FoodServicesModel::connect()->prepare($sql2);
+        $stmt2->execute($args2);
+        $stmt3 = FoodServicesModel::connect()->prepare($sql3);
+        $stmt3->execute($args3);
+    }
+
     //fucntion to add food cart
     function addCart(){
         $sql = "INSERT INTO cartfood(OrderF_ID, Food_ID, OF_Quantity) values (:orderfID, :food_ID, '1')";
