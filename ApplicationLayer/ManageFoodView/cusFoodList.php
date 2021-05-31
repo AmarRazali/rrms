@@ -24,14 +24,20 @@ require_once $_SERVER["DOCUMENT_ROOT"].'/RRMS/BusinessServicesLayer/controller/F
 		color: black;
 		margin: 0px;
 	}
+
+	.float{
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:600px;
+	right:140px;
+}
 </style>
 <html>
 <head>
 	<title>RRMS</title>
 
 	<link rel="stylesheet" type="text/css" href="../../includes/ExternalCSS/topnav.css">
-
-
 
 	<?php
 		$Role = $_SESSION['role'];
@@ -51,6 +57,8 @@ require_once $_SERVER["DOCUMENT_ROOT"].'/RRMS/BusinessServicesLayer/controller/F
 	</div>
 
 	<br style="clear: both;"> 
+
+	<a href="cartfood.php"><img src="../../Images/Food/cart.png" class="float"></a>
 
 	<div>
 		<h2 class="subHeader">MAIN MENU</h2>

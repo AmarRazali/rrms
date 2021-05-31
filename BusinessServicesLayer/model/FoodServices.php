@@ -109,6 +109,16 @@ class FoodServicesModel {
         return $orderfid;
     }
 
+    //function to get spid
+    function getspID(){
+        $sql = "SELECT ServiceP_ID FROM orderfood WHERE OrderF_ID=:orderfID" ;
+        $args = [':orderfID'=>$this->orderfID];
+        $stmt = FoodServicesModel::connect()->prepare($sql);
+        $stmt->execute($args);
+        $spid = $stmt->fetchColumn();
+        return $spid;
+    }
+
     //fucntion to check food in cart
     function checkCart(){
         $sql = "SELECT EXISTS(SELECT * FROM cartfood WHERE OrderF_ID=:orderfID AND Food_ID=:food_ID)";
@@ -161,6 +171,14 @@ class FoodServicesModel {
         $stmt = FoodServicesModel::connect()->prepare($sql);
         $stmt->execute($args);
         return $stmt;
+    }
+
+
+    function updateofdetails(){
+        $sql = "UPDATE orderfood SET OF_Details=CONCAT(OF_Details,:foodName,' (x',:foodQuantity,'). ') WHERE OrderF_ID=:orderfID";
+        $args = [':orderfID'=>$this->orderfID, ':foodName'=>$this->foodName, ':foodQuantity'=>$this->foodQuantity];
+        $stmt = FoodServicesModel::connect()->prepare($sql);
+        $stmt->execute($args);
     }
 
     //fucntion to add food cart

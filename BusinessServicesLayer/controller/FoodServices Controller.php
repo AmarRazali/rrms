@@ -100,6 +100,13 @@ class foodServicesController{
 		return $getCart->getCart();
 		}	
 
+	//function to get spid
+	function getspID($orderfid){
+		$getspID = new FoodServicesModel();
+		$getspID->orderfID = $orderfid;
+		return $getspID->getspID();
+		}	
+
 	//function to check item in cart
 	function checkCart($orderfid){
 		$checkCart = new FoodServicesModel();
@@ -139,6 +146,14 @@ class foodServicesController{
 		$updateCart->orderfID = $orderfid;
 		$updateCart->food_ID=$_POST['Food_ID'];
 		$updateCart->updateCart();
+	}
+
+	function updateofdetails($orderfid, $foodname, $foodquantity){
+		$updateofdetails = new FoodServicesModel();
+		$updateofdetails->orderfID = $orderfid;
+		$updateofdetails->foodName = $foodname;
+		$updateofdetails->foodQuantity = $foodquantity;
+		$updateofdetails->updateofdetails();
 	}
 
 	//update item quantity

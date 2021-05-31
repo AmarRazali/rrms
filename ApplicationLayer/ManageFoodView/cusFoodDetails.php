@@ -70,6 +70,14 @@ session_start();
 		border-radius: 20px;
 	}
 
+	.float{
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:600px;
+	right:140px;
+}
+
 
 </style>
 <html>
@@ -105,6 +113,8 @@ session_start();
 	</div>
 
 	<br style="clear: both;"> 
+
+	<a href="cartfood.php"><img src="../../Images/Food/cart.png" class="float"></a>
 
 	<div>
 		<h2 class="subHeader">FOOD DETAILS</h2>

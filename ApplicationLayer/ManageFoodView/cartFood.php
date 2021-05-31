@@ -4,6 +4,15 @@
 	$CusID=$_SESSION['customerID'] ;
 	$FoodID = $_GET['Food_ID'];
 
+	require_once $_SERVER["DOCUMENT_ROOT"].'/RRMS/BusinessServicesLayer/controller/Registration Controller.php';
+	$viewUserData = new registrationController();
+	$data = $viewUserData->viewDataCustomer($CusID);
+	
+	foreach ($data as $row) {
+		$cusAdd=$row['Cus_Address'];
+	}
+	$date = date("Y-m-d"); 
+
 	require_once $_SERVER["DOCUMENT_ROOT"].'/RRMS/BusinessServicesLayer/controller/FoodServices Controller.php';
 
 ?>
@@ -34,6 +43,26 @@
 	#tableCart th{
 		background-color: #D1D3D6;
 	}
+
+	.float{
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:600px;
+	right:140px;
+	}
+
+	#foodList {
+		position:fixed;
+		bottom:560px;
+		right:90px;
+		background-color: red;
+		color: white;
+		width: 150px;
+		height: 30px;
+		border: 1px solid red;
+		border-radius: 20px;
+	}
 </style>
 
 <html>
@@ -55,6 +84,7 @@
 				$orderfid = $getCart->getCart($CusID);
 				$addCart = new foodServicesController();
 				$addCart->addCart($orderfid);
+				header('Location:cartFood.php');
             }
 			else if($result==1)
 			{
@@ -93,6 +123,9 @@
 		  $getCart = new foodServicesController();
 		  $orderfid = $getCart->getCart($CusID);
 
+		  $getspID = new foodServicesController();
+		  $spid = $getspID->getspID($orderfid);
+		  
 	?>
 </head>
 
@@ -103,6 +136,9 @@
 	
 
 	<br style="clear: both;"> 
+
+	<a href="cartfood.php"><img src="../../Images/Food/cart.png" class="float"></a>
+	<input type="button" onclick="location.href='/RRMS/ApplicationLayer/ManageFoodView/cusFoodList.php?ServiceP_ID=<?=$spid;?>'" value="Back to Food List" id="foodList">
 
 	<div>
 		<h2 class="subHeader">CART ITEM</h2>
@@ -142,7 +178,7 @@
 					<td>
 						<?php
 							$totalprice = $totalprice + $row2['F_Price']*$row1['OF_Quantity'];
-						?>RM <?=$row2['F_Price'];?>
+						?>RM <?=$row2['F_Price']*$row1['OF_Quantity'];?>
 					</td>
 					<td style="width: 200px;">
 						<input type="submit" name="update" value="Update">
@@ -172,12 +208,20 @@
 			<tr>
 				<td colspan="3" style="text-align: right;">Total Price</td>
 				<td>RM <?=$totalprice;?></td>
-				<td><input type="submit" name="checkout" value="CheckOut!"></td>
+				<?php
+					$updatetotalP = new foodServicesController();
+            		$updatetotalP->updatetotalP($totalprice,$orderfid);
+				?>
+				<form action="/RRMS/ApplicationLayer/ManagePaymentView/paymentCheckout.php" method="POST">
+					<input type="hidden" name="OrderF_ID" value="<?=$orderfid;?>">
+					<input type="hidden" name="cusID" value="<?=$CusID;?>">
+					<input type="hidden" name="spID" value="<?=$spid;?>">
+					<input type="hidden" name="totalPrice" value="<?=$totalprice;?>">	
+					<input type="hidden" name="date" value="<?=$date;?>">		
+					<input type="hidden" name="cusAdd" value="<?=$cusAdd;?>">		
+					<td><input type="submit" name="checkoutF" value="CheckOut!"></td>						
+				</form>
 			</tr>
-			<?php
-			$updatetotalP = new foodServicesController();
-            $updatetotalP->updatetotalP($totalprice,$orderfid);
-			?>
 		</table>
 	</div>
 	<!-- Cart Content End -->

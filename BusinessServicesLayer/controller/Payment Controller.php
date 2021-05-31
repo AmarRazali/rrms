@@ -54,25 +54,15 @@ class paymentController {
 		$addTracking->addTracking();
       }
 	
-	
 	function addFoodOrder(){
 		$addFoodOrder = new paymentModel();
+		$addFoodOrder->OrderF_ID = $_POST['OrderF_ID'];
 		$addFoodOrder->cusID = $_POST['cusID'];
-		$addFoodOrder->foodID = $_POST['FoodID'];
 		$addFoodOrder->providerID=$_POST['spID'];
 		$addFoodOrder->totalPrice= $_POST['totalPrice'];
+		$addFoodOrder->OF_Date= $_POST['date'];
 		$addFoodOrder->cusAdd= $_POST['cusAdd'];
-		$details = $_POST['Quantity'];
-		$F_Description = $_POST['F_description'];
-		$FoodName =  $_POST['F_Name'];
-	
-		$addFoodOrder->OF_Details="Food Delivery: ". $FoodName ." - [". $F_Description ."] x (".(string)$details .")" ;
-
-		if($addFoodOrder->addFoodOrder()){
-            $message = "Your has Pre-Order";
-       		 echo "<script type='text/javascript'> alert('$message'); </script>";
-        }
-	
+		$addFoodOrder->addFoodOrder();
 	}
 
 	function addPharOrder(){
