@@ -22,6 +22,14 @@ class trackingAnalyticController
         return $tracking->viewOrderTrackingList();
     }
 
+    //Function to retrieve tracking data based on Customer ID
+    //added by choong
+    function viewOrderHistory($Cus_ID){
+        $tracking = new trackingAnalyticModel();
+        $tracking->Cus_ID = $Cus_ID;
+        return $tracking->viewReceivedOrderHistory();
+    }
+
     //Function to retrieve selected tracking data based on Track ID
     //Code Okay
     function viewTrackStatus($Tracking_ID){
@@ -51,7 +59,7 @@ class trackingAnalyticController
         if($custUpdate->custUpdateTracking()){
             $message = "You have received the order!";
         echo "<script type='text/javascript'>alert('$message');
-        window.location = '../ManageTrackingAnalyticView/customerTracking.php';</script>";
+        window.location = '../ManageTrackingAnalyticView/receivedOrderTracking.php';</script>";
         }  
     }
 

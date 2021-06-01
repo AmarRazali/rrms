@@ -35,8 +35,8 @@ class trackingAnalyticModel{
         }
 
         //Function to view received order based on customer id
-        //modified by choong
-        function viewOrderTrackingList(){
+        //added by choong
+        function viewReceivedOrderHistory(){
             $sql = "select * from orderdetails inner join serviceprovider inner join tracking inner join customer on tracking.Cus_ID = customer.Cus_ID and tracking.Order_ID = orderdetails.Order_ID and tracking.ServiceP_ID = serviceprovider.ServiceP_ID where customer.Cus_ID =:Cus_ID and tracking.ReceiveStatus= 'Received' ";
             $args = [':Cus_ID'=>$this->Cus_ID];
             $stmt = trackingAnalyticModel::connect()->prepare($sql);
