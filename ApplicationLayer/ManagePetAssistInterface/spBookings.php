@@ -41,7 +41,7 @@ session_start();
 	?>
 
     <div id="frm">
-    	<h2>MY BOOKINGS</h2>
+    	<h2>CUSTOMER BOOKINGS</h2>
 		
 			<table style="margin-top: 20px;" width="100%">
 				
