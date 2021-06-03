@@ -63,7 +63,7 @@ require_once $_SERVER["DOCUMENT_ROOT"].'/RRMS/BusinessServicesLayer/controller/m
 		<td rowspan="2">
 			<form action="" method="POST">
 			<table border="0" cellpadding="0">
-			<tr style="height:30px;">
+			<tr style="height:40px;">
 				<th colspan="2"><center>RECEPIENT INFORMATION</center></th>
 			</tr>
 			<tr style="height:0px;">
@@ -114,23 +114,60 @@ require_once $_SERVER["DOCUMENT_ROOT"].'/RRMS/BusinessServicesLayer/controller/m
 				<td>Delivery Date:<br><input type="date" id="deliverdate" name="deliverdate"></td>
 				<td>Receive Date:<br><input type="date" id="receivedate" name="receivedate"></td>
 			</tr>
-			<tr style="height:35px;">
-				<td colspan="2">
+
+<td>Pickup Location:<br>
+					<select name="pickupLoc" id="pickupLoc">
+						<option value="Kelantan">Kelantan</option>
+						<option value="Terengganu">Terengganu</option>
+						<option value="Pahang">Pahang</option>
+						<option value="Perak">Perak</option>
+						<option value="Kedah">Kedah</option>
+						<option value="Perlis">Perlis</option>
+						<option value="Selangor">Selangor</option>
+						<option value="Kuala Lumpur">KualaLumpur</option>
+						<option value="Melaka">Melaka</option>
+						<option value="Negeri Sembilan">NegeriSembilan</option>
+						<option value="Johor">Johor</option>
+						<option value="Sarawak">Sarawak</option>
+						<option value="Sabah">Sabah</option>
+						<option value="Labuan">Labuan</option>
+					</select>
+				</td><br>
+				<td>Drop Off Location:<br>
+				<select name="dropoffLoc" id="dropoffLoc">
+						<option value="Kelantan">Kelantan</option>
+						<option value="Terengganu">Terengganu</option>
+						<option value="Pahang">Pahang</option>
+						<option value="Perak">Perak</option>
+						<option value="Kedah">Kedah</option>
+						<option value="Perlis">Perlis</option>
+						<option value="Selangor">Selangor</option>
+						<option value="Kuala Lumpur">KualaLumpur</option>
+						<option value="Melaka">Melaka</option>
+						<option value="Negeri Sembilan">NegeriSembilan</option>
+						<option value="Johor">Johor</option>
+						<option value="Sarawak">Sarawak</option>
+						<option value="Sabah">Sabah</option>
+						<option value="Labuan">Labuan</option>
+					</select>
+				</td>
+
+
+			<tr style="height:40px;">
+					<td colspan="2">
 					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+					&emsp;&emsp;&emsp;&emsp;&emsp;
+					<button type="cancel" name="cancel" value="cancel">Reset</button> 
 					<button type="submit" name="proceed" value="Submit">PROCEED</button>
+
 			</tr>
 			</table>
 
 		</td>
 	</tr>
-	<tr style="height:40px;">
-		<td>
-			Pickup Location:<br><input type="text" name="pickupLoc" id="pickupLoc">
-			<br>
-			Dropoff Location:<br><input type="text" name="dropoffLoc" id="dropoffLoc">
-		</td>
-	</tr>
+
+
+		
 		</form>
 </table>
 </center>
@@ -147,3 +184,4 @@ require_once $_SERVER["DOCUMENT_ROOT"].'/RRMS/BusinessServicesLayer/controller/m
 </body>
 
 </html>
+
