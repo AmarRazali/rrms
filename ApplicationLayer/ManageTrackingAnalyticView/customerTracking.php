@@ -9,6 +9,15 @@ session_start();
 	<?php
 	include '../../includes/cusTopNaviBar.php';
 	?>
+	 <!-- add extra navbar  -->
+	 <nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="customerTracking.php">customer tracking list</a></li>
+      <li><a href="receivedOrderTracking.php">Order History</a></li>
+    </ul>
+  </div>
+</nav>
 </head>
 
 <style>
