@@ -20,10 +20,17 @@ session_start();
   		background-color: ;
 	}
 
+	.isDisabled {
+		color: currentColor;
+        cursor: not-allowed;
+        opacity: 0.5;
+        text-decoration: none;
+        pointer-events: none;
+	}
+
 	table tr#first {border:inset 4px solid black; color:white;  background-color:rgb(51, 63, 80);}
 	table td#second {border:inset 4px solid black; color:white;  background-color:rgb(51, 63, 80);}
 
-</style>
 </style>
 
 </head>
@@ -60,7 +67,7 @@ session_start();
 				$i=1;
     			foreach($data as $row){
     			?>
-    		
+    			<form action="" method="POST">
 				<tr>
 					<td id="styleTr"><?php echo $i; $i++;?></td>
 					<td> <?=$row['OrderPA_ID']?> </td>
@@ -72,13 +79,13 @@ session_start();
 					<td><?=$row['status']?></td>
 					<td>
 						<input type="hidden" name="ServiceP_ID" value="<?=$row['ServiceP_ID']?>">
-						<a href="../ManagePetAssistInterface/custDecision.php?OrderPA_ID=<?=$row['OrderPA_ID'];?>">More Info</a>					
+						<a href="../ManagePetAssistInterface/custDecision.php?OrderPA_ID=<?=$row['OrderPA_ID'];?>">More Info&nbsp&nbsp&nbsp&nbsp</a>
+						<input type="hidden" name="OrderPA_ID" value="<?=$row['OrderPA_ID']?>">					
 					</td>
 				</tr>
+			</form>
 				<?php 
-				
-					
-				}
+    			}
 				?>
 			</table>   		
     </div>

@@ -50,7 +50,7 @@ class petController{
         return $myBookingsSPAll->myBookingsSPAll();
     }
 
-    function updateServiceDetails($providerID){
+    function updateServiceDetails($providerID,$pImage){
         $updateServiceDetails = new petModel();
         $updateServiceDetails->providerID = $providerID;
         $updateServiceDetails->PName= $_POST['updateName'];
@@ -59,13 +59,13 @@ class petController{
         $updateServiceDetails->APets = $_POST['updatePets'];
         $updateServiceDetails->APetSize = $_POST['updatePetSize'];
         $updateServiceDetails->Days = $_POST['updateDay'];
-        $updateServiceDetails->PImage = $_POST['updateImage'];
+        $updateServiceDetails->PImage = $pImage;
 
         
         if($updateServiceDetails->updateServiceDetails()){
             $message = "Your information updated";
         echo "<script type='text/javascript'>alert('$message');
-        window.location = 'spManageService.php';</script>";
+        window.location = 'spPetHome.php';</script>";
         }
     }
 
