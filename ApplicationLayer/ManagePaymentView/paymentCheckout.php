@@ -23,12 +23,27 @@ session_start();
         $data = $viewOrderDetail->viewOrderDetail($cusID);
       
 
-        if(isset($_POST['checkoutF'])){    
+        if(isset($_POST['checkoutF'])){
+            $orderfid  = $_POST['OrderF_ID'];
+            $viewfoodID = new foodServicesController();
+            $data1 = $viewfoodID->viewfoodID($orderfid);
+            foreach ($data1 as $row1) 
+            {
+              $foodDetails = new foodServicesController();
+              $data2 = $foodDetails->foodDetails($row1['Food_ID']);
+              foreach ($data2 as $row2) 
+              {
+                $updateofdetails = new foodServicesController();
+                $updateofdetails->updateofdetails($orderfid, $row2['F_Name'], $row1['OF_Quantity']);
+              }
+            }
+          
           $addFoodOrder = new paymentController();
-          $addFoodOrder->addFoodOrder(); 
+          $addFoodOrder->addFoodOrder();
           header('Location:paymentCheckout.php');
+          echo "<script>window.location.href='paymentCheckout.php';</script>";
+          exit;
         }
-
         
         if(isset($_POST['checkoutG']))
         {
@@ -68,14 +83,15 @@ session_start();
           header('Location:paymentCheckout.php');
         }
 
-
+           
         foreach ($data as $row){   
-          $orderID= $row['Order_ID'];
+          $orderID= $row['OrderF_ID'];
           $details=  $row['OD_Details'];
           $date=  $row['OD_Date'];
           $totalPrice=  $row['OD_TotalPrice'];
           $deliveryAdd=  $row['DeliveryAddress'];
         }
+        
        
        
     ?>

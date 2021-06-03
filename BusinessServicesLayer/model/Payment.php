@@ -88,22 +88,15 @@ class paymentModel {
 	}
 
     function addFoodOrder(){
-        $sql = "insert into orderfood(Cus_ID, Food_ID, ServiceP_ID, OF_Details, OF_TotalPrice, OF_DeliveryAdd) values (:custID, :Food_ID, :providerID, :OF_Details, :totalprice, :OF_DeliveryAdd)";
-        $args = [':custID'=>$this->cusID, ':Food_ID'=>$this->foodID,':providerID'=>$this->providerID, ':OF_Details'=>$this->OF_Details,  ':totalprice'=>$this->totalPrice, ':OF_DeliveryAdd'=>$this->cusAdd];
+        $sql = "UPDATE orderfood SET OF_Date=:OF_Date, OF_DeliveryAdd=:OF_DeliveryAdd WHERE OrderF_ID=:OrderF_ID";
+        $args = [':OF_DeliveryAdd'=>$this->cusAdd, ':OF_Date'=>$this->OF_Date, ':OrderF_ID'=>$this->OrderF_ID];
         $stmt = paymentModel::connect()->prepare($sql);
         $stmt->execute($args);
 
-        $sql2= "INSERT INTO orderdetails (OrderF_ID, Cus_ID, ServiceP_ID, OD_TotalPrice, DeliveryAddress, OD_Details)
-        SELECT OrderF_ID, Cus_ID, ServiceP_ID, OF_TotalPrice, OF_DeliveryAdd, OF_Details
-        FROM orderfood
-        WHERE Food_ID=:FoodID AND OF_Status='Check Out' ";
-
-        $args2 = [':FoodID'=>$this->foodID];
+        $sql2= "INSERT INTO orderdetails (OrderF_ID, Cus_ID, ServiceP_ID, OD_Details, OD_TotalPrice, DeliveryAddress) SELECT OrderF_ID, Cus_ID, ServiceP_ID, OF_Details, OF_TotalPrice, OF_DeliveryAdd FROM orderfood WHERE OrderF_ID=:OrderF_ID AND OF_Status='Check Out'";
+        $args2 = [':OrderF_ID'=>$this->OrderF_ID];
         $stmt2 = paymentModel::connect()->prepare($sql2);
         $stmt2->execute($args2);
-
-        return $stmt;
-        
     }
 
     function addPharOrder(){

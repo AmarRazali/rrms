@@ -42,7 +42,7 @@ class registrationController
     }
 
     //Function Service Provider to Register
-    function registerServiceProvider(){
+    function registerServiceProvider($SPLogo){
         $register = new registrationModel();
         $register->role = 3;
         $register->SPType= $_POST['SPType'];
@@ -54,6 +54,7 @@ class registrationController
         $register->SPPassword = $_POST['SPPassword'];
         $register->SPBankType = $_POST['SPBankType'];
         $register->SPAccNo = $_POST['SPAccNo'];
+        $register->SPLogo = $SPLogo;
         if($register->addServiceProvider()){
             $message = "Successfully Registered. Please Login.";
 		echo "<script type='text/javascript'>alert('$message');

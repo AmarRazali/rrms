@@ -5,11 +5,13 @@
 
         //Create register object in controller
         $register = new registrationController();
-    
+
         if(isset($_POST['registerServiceProvider'])){
             //Object point to register function
-            $register->registerServiceProvider();
+            $SPLogo = "/RRMS/Images/Registration/".basename($_FILES['SPLogo']['name']);
+            $register->registerServiceProvider($SPLogo);
         }
+        
     ?>
     <head>
         <title>SP Registration</title>
@@ -58,7 +60,7 @@
         <p><strong><i>Service Provider Registration </strong>:</i></p>
         <br>
 
-        <form action="" method="POST">
+        <form action="" method="POST" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-lg-4 col-lg-offset-4">
 
@@ -96,6 +98,14 @@
                             <option value="Pet">Pet</option>
                           </select>
                     </div>
+
+                    <br>
+
+                    <div class="input-group">
+                        <span class="input-group-addon"><label style="font-weight: bold;">Company Logo:</label><i aria-hidden="true" style="font-size: larger;"></i></span>
+                        <input type="file" class="form-control" name="SPLogo" required>
+                    </div>
+
                     <br>
                     <br>
                     <div class="input-group">

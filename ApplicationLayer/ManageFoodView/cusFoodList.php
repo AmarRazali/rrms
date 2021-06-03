@@ -1,5 +1,7 @@
 <?php
 session_start();
+
+require_once $_SERVER["DOCUMENT_ROOT"].'/RRMS/BusinessServicesLayer/controller/FoodServices Controller.php';
 ?>
 
 <!DOCTYPE html>
@@ -22,6 +24,14 @@ session_start();
 		color: black;
 		margin: 0px;
 	}
+
+	.float{
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:600px;
+	right:140px;
+}
 </style>
 <html>
 <head>
@@ -29,10 +39,12 @@ session_start();
 
 	<link rel="stylesheet" type="text/css" href="../../includes/ExternalCSS/topnav.css">
 
-
-
-<?php
+	<?php
 		$Role = $_SESSION['role'];
+		$ServiceP_ID = $_GET['ServiceP_ID'];
+
+	$productdata = new foodServicesController();
+	$data = $productdata->allFoodbyRestaurant($ServiceP_ID);
 	?>	
 
 </head>
@@ -46,18 +58,14 @@ session_start();
 
 	<br style="clear: both;"> 
 
+	<a href="cartfood.php"><img src="../../Images/Food/cart.png" class="float"></a>
+
 	<div>
 		<h2 class="subHeader">MAIN MENU</h2>
 	</div>
 	<div>
 	<!-- Content Mainpage Customer-->
 	<?php
-	require_once $_SERVER["DOCUMENT_ROOT"].'/RRMS/BusinessServicesLayer/controller/FoodServices Controller.php';
-
-	$productdata = new foodServicesController();
-	$data = $productdata->allFood();
-
-
 		foreach ($data as $row) {
 			?>
 			<a href="../ManageFoodView/cusFoodDetails.php?Food_ID=<?=$row['Food_ID'];?>">

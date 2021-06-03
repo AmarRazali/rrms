@@ -14,7 +14,7 @@ class foodServicesController{
 		$addFood->FImage = $foodImage;
 		
 		if($addFood->addFood()){
-            $message = "Your Food has been registered";
+        $message = "Your Food has been registered";
         echo "<script type='text/javascript'>alert('$message');</script>";
         }
 	}
@@ -51,13 +51,26 @@ class foodServicesController{
         }
 	}
 
+	//function to view restaurant list on customer mainpage
+	function allRestaurant(){
+		$allRestaurant = new FoodServicesModel();
+		return $allRestaurant->allRestaurant();
+	}
+
 	//function to view all product on customer mainpage
-    function allFood(){
+    function allFoodbyRestaurant($ServiceP_ID){
         $allFood = new FoodServicesModel();
-        return $allFood->allFood();
+		$allFood->ServicePID = $ServiceP_ID;
+        return $allFood->allFoodbyRestaurant();
     }
 
-
+	//function to view foodID on cart
+	function viewfoodID($orderfid){
+		$viewfoodID = new FoodServicesModel();
+		$viewfoodID->orderfID = $orderfid;
+		return $viewfoodID->viewfoodID();
+	}
+	
 	//function to view details on product
 	function foodDetails($FoodID){
 		$foodDetails = new FoodServicesModel();
@@ -65,6 +78,107 @@ class foodServicesController{
 		return $foodDetails->foodDetails();
 	}
 
+	//function to view cart 
+	function viewCart($CusID){
+		$viewCart = new FoodServicesModel();
+		$viewCart->CusID = $CusID;
+		return $viewCart->viewCart();
+	}	
+
+	//function to add cart
+	function createCart(){
+		$createCart = new FoodServicesModel();
+		$createCart->cusID = $_POST['cusID'];
+		$createCart->providerID=$_POST['spID'];
+		$createCart->createCart();
+	}
+
+	//function to get orferf id
+	function getCart($CusID){
+		$getCart = new FoodServicesModel();
+		$getCart->CusID = $CusID;
+		return $getCart->getCart();
+		}	
+
+	//function to get spid
+	function getspID($orderfid){
+		$getspID = new FoodServicesModel();
+		$getspID->orderfID = $orderfid;
+		return $getspID->getspID();
+		}	
+
+	//function to check item in cart
+	function checkCart($orderfid){
+		$checkCart = new FoodServicesModel();
+		$checkCart->orderfID = $orderfid;
+		$checkCart->food_ID=$_POST['Food_ID'];
+		return $checkCart->checkCart();
+	}
+
+	//function to check same restaurant
+	function checkRestaurant($orderfid){
+		$checkRestaurant = new FoodServicesModel();
+		$checkRestaurant->orderfID = $orderfid;
+		$checkRestaurant->spID=$_POST['spID'];
+		return $checkRestaurant->checkRestaurant();
+	}	
+
+	//function to update ofID
+	function updateofID($orderfid){
+		$updateofID = new FoodServicesModel();
+		$updateofID->orderfID = $orderfid;
+		$updateofID->spID=$_POST['spID'];
+		$updateofID->food_ID=$_POST['Food_ID'];
+		$updateofID->updateofID();
+	}
+
+	//function to add food into cart
+	function addCart($orderfid){
+		$addCart = new FoodServicesModel();
+		$addCart->orderfID = $orderfid;
+		$addCart->food_ID=$_POST['Food_ID'];
+		$addCart->addCart();
+	}
+
+	//function to update food into cart
+	function updateCart($orderfid){
+		$updateCart = new FoodServicesModel();
+		$updateCart->orderfID = $orderfid;
+		$updateCart->food_ID=$_POST['Food_ID'];
+		$updateCart->updateCart();
+	}
+
+	function updateofdetails($orderfid, $foodname, $foodquantity){
+		$updateofdetails = new FoodServicesModel();
+		$updateofdetails->orderfID = $orderfid;
+		$updateofdetails->foodName = $foodname;
+		$updateofdetails->foodQuantity = $foodquantity;
+		$updateofdetails->updateofdetails();
+	}
+
+	//update item quantity
+	function updateQuan($quantity,$cartID){
+		$updateQuan = new FoodServicesModel();
+		$updateQuan->quantity = $quantity;
+		$updateQuan->cartID = $cartID;
+		$updateQuan->updateQuan();
+	}
+
+	//delete item from cart
+	function deleteCart($cartID){
+		$deleteCart = new FoodServicesModel();
+		$deleteCart->cartID = $cartID;
+		$deleteCart->deleteCart();
+	}
+
+	//update cart total price
+	function updatetotalP($totalprice,$orderfid){
+		$updatetotalP = new FoodServicesModel();
+		$updatetotalP->totalprice = $totalprice;
+		$updatetotalP->orderfID = $orderfid;
+		$updatetotalP->updatetotalP();
+	}
+	
 	//function to view customer order in service provider
 	function viewManageOrder($providerID){
         $viewManage = new FoodServicesModel();

@@ -25,8 +25,8 @@ session_start();
 <h1>Order Delicious Food Online</h1>
 <h3>Order food online from the best restaurants near you</h3>
 
-<form action="/RRMS/ApplicationLayer/ManageFoodView/cusFoodList.php" method="POST">
-<button class="button button2 buttonlength" type="submit" name ="food" value="Foodlist">Food List</button>
+<form action="/RRMS/ApplicationLayer/ManageFoodView/cusFoodRestaurant.php" method="POST">
+<button class="button button2 buttonlength" type="submit" name ="food" value="Foodlist">Restaurant List</button>
 </form>
 
 </center>
